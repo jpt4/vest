@@ -1,0 +1,25 @@
+UTC20160301
+Week 1 Day 1
+Ends:
+Setup Clojure development environment
+Port Scheme k-means clusterer to Clojure
+
+Means:
+Clojure general:
+http://clojure.org/guides/getting_started
+
+General Clojure Emacs configuration
+http://clojure-doc.org/articles/tutorials/emacs.html
+
+Leiningen build system
+http://leiningen.org/
+
+CIDER development environment
+https://github.com/clojure-emacs/cider
+
+Results:
+pacman -S clojure-1.8.0-1, jdk8-openjdk, rlwrap
+`lein` script
+restart emacs server to refresh exec-path (may be possible elsewise)
+create ~/lein/profiles.clj to synchronize CIDER and nrepl versions to 0.11.0-SNAPSHOT
+http://stackoverflow.com/questions/26317179/why-is-cider-finding-the-wrong-version-of-cider-nrepl-and-how-can-i-fix-it
