@@ -1,0 +1,56 @@
+;;test.scm
+;;test suite for k-means variants
+
+(load "mdnn.scm")
+
+;;compare an expression with its expected value
+(define (test nam exp res)
+	(if (equal? (eval exp (interaction-environment)) res)
+			(begin (display "Passed ") (display nam))
+			(begin (display exp) (display " ") (display res)))
+	(newline))
+
+;;test the tests
+(define (run-tests)
+	(for-each (lambda (t)  (test (car t) (cadr t) (caddr t))) tests))
+
+;;test subject material
+;3D point
+(define tst-3dp (mk-point 'tst 'cat0 (list 0.1 0.8 0.5)))
+;tagged data pair
+(define tst-td (list 'tag 'data))
+
+;random numbers with two degrees of accuracy
+(define (rand2) (/ (truncate (random 100)) 100.0))
+
+;list of 100 positive points
+(define tls-pos 
+  (map (lambda (i) 
+         (mk-point i 'catp 
+                   (list (rand2) (rand2) (rand2))))
+       (iota 100)))
+;list of 100 negative points
+(define tls-neg 
+  (map (lambda (i) 
+         (mk-point i 'catp 
+                   (list (* (rand2) -1.0) (* (rand2) -1.0) (* (rand2) -1.0))))
+       (iota 100)))
+;generate training points
+(define (tst-pos val)
+         (mk-point val '() (list (rand2) (rand2) (rand2))))
+
+(define (tst-neg val)
+  (mk-point val 'catp 
+            (list (* (rand2) -1.0) (* (rand2) -1.0) (* (rand2) -1.0))))
+         
+;;a list of (test name, expression, expected result) pairs to test.
+(define tests 
+  (list
+   '(mk-point tst-3dp (tst cat0 (0.1 0.8 0.5)))
+   '(val (val tst-3dp) tst) '(cat (cat tst-3dp) cat0)
+   '(dls (dls tst-3dp) (0.1 0.8 0.5))
+   '(n-co-0 (n-co tst-3dp 0) 0.1) '(n-co-1 (n-co tst-3dp 1) 0.8)
+   '(n-co-2 (n-co tst-3dp 2) 0.5)
+   '(tag (tag tst-td) tag) '(data (data tst-td) data)
+   
+   ))
